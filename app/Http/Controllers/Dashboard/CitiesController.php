@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 use App\Continent;
+use App\Country;
 use App\City;
 
 class CitiesController extends Controller
@@ -20,7 +21,7 @@ class CitiesController extends Controller
     {
         try{
             
-            $cities = City::with('continent')->get();//All cities
+            $cities = City::with('country.continent')->get();//All cities
 
             return response($cities, 200);
         }catch(\Exception $e){
@@ -64,7 +65,8 @@ class CitiesController extends Controller
     {
         try{
             
-            $city = City::find($id);
+            $city = City::with('country')->find($id);
+            $city->continent_id = $city->country->continent_id;
 
             return response($city, 200);
         }catch(\Exception $e){
@@ -138,5 +140,29 @@ class CitiesController extends Controller
 
             return response([$e->getMessage()], 500);
         }
+    }
+
+    /**
+     *  [getCountries based on continent]
+     *
+     *  @method getCountries
+     *
+     *  @param  [type] $continent_id [description]
+     *
+     *  @return [type] [description]
+     */
+    
+    public function getCountries($continent_id){
+
+        try{
+
+            $countries = Country::where('continent_id', $continent_id)->get(['id', 'name']);
+
+            return response($countries, 200);
+        }catch(\Exception $e){
+
+            return response([$e->getMessage()], 500);
+        }
+
     }
 }

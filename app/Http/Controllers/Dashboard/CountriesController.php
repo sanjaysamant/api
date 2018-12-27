@@ -43,20 +43,23 @@ class CountriesController extends Controller
         //     'status'       => 'required',
         //     ]);
         try{
+
             $data['code'] = $request->code;
             $data['isd_code'] = $request->isd_code;
-            if(!empty($request->flag)){
+            $data['flag'] = $request->flag;
+            $data['flag_path'] = $request->flag_path;
+             // if(isset($request->flag) && !empty($request->flag)){
 
-                $data['flag'] = $data['code'] . '.' . $request->flag->getClientOriginalExtension();
-                $data['flag_path'] = 'images/countries/';
-                $request->flag->move(public_path($data['flag_path']), $data['flag']);
-            }
+            //     $data['flag'] = $data['code'] . '.' . $request->flag->getClientOriginalExtension();
+            //     $data['flag_path'] = 'images/countries/';
+            //     $request->flag->move(public_path($data['flag_path']), $data['flag']);
+            // }
             Country::create($data);
 
             return response(["Country created successfully"], 200);
         }catch(\Exception $e){
 
-            return response([$e->getMessage()], 500);
+            return response([$e->getMessage() . "Line: " . $e->getLine()], 500);
         }
 
     }
@@ -107,18 +110,20 @@ class CountriesController extends Controller
         try{
             $data['code'] = $request->code;
             $data['isd_code'] = $request->isd_code;
-            if(!empty($request->flag)){
+            $data['flag'] = $request->flag;
+            $data['flag_path'] = $request->flag_path;
+            // if(isset($request->flag) && !empty($request->flag)){
 
-                $data['flag'] = $data['code'] . '.' . $request->flag->getClientOriginalExtension();
-                $data['flag_path'] = 'images/countries/';
-                $request->flag->move(public_path($data['flag_path']), $data['flag']);
-            }
+            //     $data['flag'] = $data['code'] . '.' . $request->flag->getClientOriginalExtension();
+            //     $data['flag_path'] = 'images/countries/';
+            //     $request->flag->move(public_path($data['flag_path']), $data['flag']);
+            // }
             Country::where('id', $id)->update($data);
 
             return response(["Country updated successfully"], 200);
         }catch(\Exception $e){
 
-            return response([$e->getMessage()], 500);
+            return response([$e->getMessage() . "Line: " . $e->getLine()], 500);
         }
     }
 

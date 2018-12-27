@@ -36,5 +36,6 @@ $router->group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function()
     $router->get('/city/show/{id}', 'CitiesController@show');
     $router->put('/city/update/{id}', 'CitiesController@update');
     $router->get('/all_continents', 'CitiesController@getAllContinents');
+    $router->get('/get_countries/{continent_id}', 'CitiesController@getCountries');
 
 });
